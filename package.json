@@ -1,0 +1,20 @@
+{
+  "name": "manage",
+  "version": "0.0.1",
+  "description": "Microservice acting as a facade for all management processes within the app",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "author": "Michael Wild - Wild Applications",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "jsonwebtoken": "^7.4.2",
+    "restify": "^5.2.0",
+    "restify-cors-middleware": "^1.0.1",
+    "restify-jwt": "^0.4.0",
+    "restify-plugins": "^1.6.0"
+  }
+}
