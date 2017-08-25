@@ -80,6 +80,19 @@ server.pre(cors.preflight);
 server.use(cors.actual);
 
 
+
+var tableRoutes = require('./routes/table.routes.js');
+tableRoutes.applyRoutes(server, '/tables');
+
+var premisesRoutes = require('./routes/premises.routes.js');
+premisesRoutes.applyRoutes(server, '/premises');
+
+var menuRoutes = require('./routes/menu.routes.js');
+menuRoutes.applyRoutes(server, '/menus');
+
+var productRoutes = require('./routes/product.routes.js');
+productRoutes.applyRoutes(server, '/products');
+
 //
 //
 //Server routes
@@ -95,56 +108,6 @@ server.get("/version", function(req,res,next){
 
 
 
-
-//
-//
-//Create premises request
-//
-server.post("/", function(req,res,next){
-
-});
-
-
-//
-//
-//Delete premises request
-//
-server.del("/premises/:_id", verifyToken({secret:secret}), function(req,res,next){
-  res.send("Delete Presmises - Not Implemented");
-});
-
-//
-//
-//Update User
-//
-server.put("/premises/:_id", verifyToken({secret:secret}), function(req,res,next){
-  res.send("Update Premises - Not Implemented");
-});
-
-//
-//
-//Get User
-//
-server.get("/premises", verifyToken({secret: secret}), function(req,res,next){
-  var token = req.header('Authorization');
-  manageHelper.getTokenContent(token, secret, function(err, decodedToken){
-    if(err){
-      res.status(400);
-      res.send(err);
-      return;
-    }
-
-    var metadata = new grpc.Metadata();
-    metadata.add('authorization', userHelper.getRawToken(token));
-    accountClient.get({}, metadata, function(err, result){
-      if(err){
-        res.send(err)
-      }else{
-        res.send(result);
-      }
-    });
-  });
-});
 
 //
 //

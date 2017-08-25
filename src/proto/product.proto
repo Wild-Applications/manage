@@ -1,10 +1,12 @@
 syntax = "proto3";
 //this belongs to this microservice
-package premises;
+package product;
 
 //Methods exposed to client
-service PremisesService {
-  rpc get (Empty) returns (GetReply){}
+service ProductService {
+  rpc getAll (Empty) returns (GetAllReply){}
+  rpc get (GetRequest) returns (GetReply){}
+  rpc getBatch( BatchRequest ) returns (BatchReply){}
   rpc create (CreateRequest) returns (CreateReply){}
   rpc update ( UpdateRequest ) returns (CreateReply){}
   rpc delete ( DeleteRequest ) returns (Empty){}
@@ -13,16 +15,34 @@ service PremisesService {
 message Empty {
 }
 
+message GetRequest {
+  string _id = 1;
+}
+
 message GetReply {
   string _id = 1;
   string name = 2;
   string description = 3;
+  double price = 4;
+}
+
+message BatchRequest {
+  repeated string ids = 1;
+}
+
+message BatchReply{
+  repeated GetReply products = 1;
+}
+
+message GetAllReply {
+  repeated GetReply products = 1;
 }
 
 message CreateRequest {
   string name = 1;
-  optional string description = 2 [default = ""];
-  int32 owner = 3;
+  string description = 2;
+  double price = 3;
+  int32 owner = 4;
 }
 
 message CreateReply {
@@ -32,7 +52,6 @@ message CreateReply {
 message UpdateRequest {
   string _id = 1;
   string name = 2;
-  string description = 3;
 }
 
 message DeleteRequest{
