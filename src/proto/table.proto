@@ -5,12 +5,17 @@ package table;
 //Methods exposed to client
 service TableService {
   rpc getAll (Empty) returns (GetAllReply){}
+  rpc get ( GetRequest ) returns ( GetReply ){}
   rpc create (CreateRequest) returns (CreateReply){}
   rpc update ( UpdateRequest ) returns (CreateReply){}
   rpc delete ( DeleteRequest ) returns (Empty){}
 }
 
 message Empty {
+}
+
+message GetRequest {
+   string _id = 1;
 }
 
 message GetReply {

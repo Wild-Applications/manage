@@ -93,6 +93,9 @@ menuRoutes.applyRoutes(server, '/menus');
 var productRoutes = require('./routes/product.routes.js');
 productRoutes.applyRoutes(server, '/products');
 
+var paymentRoutes = require('./routes/payments.routes.js');
+paymentRoutes.applyRoutes(server, '/payments');
+
 //
 //
 //Server routes
