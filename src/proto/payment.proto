@@ -19,7 +19,11 @@ message Code {
 
 
 message GetReply{
-  string access = 1;
+  bool chargesEnabled = 1;
+  bool payoutsEnabled = 2;
+  bool detailsSubmitted = 3;
+  string displayName = 4;
+  string currency = 5;
 }
 
 message PaymentRequest {

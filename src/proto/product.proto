@@ -2,6 +2,8 @@ syntax = "proto3";
 //this belongs to this microservice
 package product;
 
+
+
 //Methods exposed to client
 service ProductService {
   rpc getAll (Empty) returns (GetAllReply){}
@@ -24,7 +26,10 @@ message GetReply {
   string name = 2;
   string description = 3;
   double price = 4;
+  bool in_stock = 5;
 }
+
+
 
 message BatchRequest {
   repeated string ids = 1;
@@ -52,6 +57,9 @@ message CreateReply {
 message UpdateRequest {
   string _id = 1;
   string name = 2;
+  string description = 3;
+  double price = 4;
+  bool in_stock = 5;
 }
 
 message DeleteRequest{
