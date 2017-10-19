@@ -9,6 +9,8 @@ service MenuService {
   rpc create (CreateRequest) returns (CreateReply){}
   rpc update ( GetReply ) returns (CreateReply){}
   rpc delete ( DeleteRequest ) returns (Empty){}
+  rpc getActiveMenuByOwner (OwnerRequest) returns (GetReply){}
+  rpc makeActive (ActiveRequest) returns (ActiveReply){}
 }
 
 message Empty {
@@ -18,11 +20,24 @@ message GetRequest {
   string _id = 1;
 }
 
+message OwnerRequest {
+  int32 owner = 1;
+}
+
+message ActiveRequest {
+  string _id = 1;
+}
+
+message ActiveReply {
+  bool madeActive = 1;
+}
+
 message product {
   string _id = 1;
   string name = 2;
   string description = 3;
   double price = 4;
+  bool in_stock = 5;
 }
 
 
@@ -60,6 +75,7 @@ message UpdateRequest {
   string _id = 1;
   string name = 2;
   string description = 3;
+  bool active = 4;
 }
 
 message DeleteRequest{

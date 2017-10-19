@@ -121,4 +121,26 @@ menuRouter.del('/:_id', function(req, res, next){
   });
 });
 
+menuRouter.post('/active/:_id', verifyToken({secret:secret}), function(req,res,next){
+  var token = req.header('Authorization');
+  tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
+    if(err){
+      res.status(400).send(err);
+      return;
+    }
+    var metadata = new grpc.Metadata();
+    metadata.add('authorization', tokenHelper.getRawToken(token));
+    var body = {}
+    body._id = req.params._id;
+    menuClient.makeActive(body, metadata, function(err, result){
+      if(err){
+        res.status(400);
+        res.send(err);
+        return;
+      }
+      res.send(result);
+    });
+  });
+});
+
 module.exports = menuRouter;
