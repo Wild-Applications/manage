@@ -88,6 +88,7 @@ menuRouter.put('/:_id', function(req, res, next){
     var metadata = new grpc.Metadata();
     metadata.add('authorization', tokenHelper.getRawToken(token));
     req.body._id = req.params._id;
+    delete req.body.contents;
     menuClient.update(req.body, metadata, function(err, result){
       if(err){
         res.status(400);
@@ -98,6 +99,28 @@ menuRouter.put('/:_id', function(req, res, next){
     });
   });
 });
+
+menuRouter.put('/contents/:_id', function(req,res,next){
+  var token = req.header('Authorization');
+  tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
+    if(err){
+      res.status(400);
+      res.send(err);
+      return;
+    }
+    var metadata = new grpc.Metadata();
+    metadata.add('authorization', tokenHelper.getRawToken(token));
+    req.body._id = req.params._id;
+    menuClient.updateContents(req.body, metadata, function(err, result){
+      if(err){
+        res.status(400);
+        res.send(err);
+        return;
+      }
+      res.send(result);
+    });
+  });
+})
 
 menuRouter.del('/:_id', function(req, res, next){
   var token = req.header('Authorization');
