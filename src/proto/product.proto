@@ -3,7 +3,6 @@ syntax = "proto3";
 package product;
 
 
-
 //Methods exposed to client
 service ProductService {
   rpc getAll (Empty) returns (GetAllReply){}
@@ -27,6 +26,7 @@ message GetReply {
   string description = 3;
   double price = 4;
   bool in_stock = 5;
+  bool age_restricted = 6;
 }
 
 
@@ -60,6 +60,7 @@ message UpdateRequest {
   string description = 3;
   double price = 4;
   bool in_stock = 5;
+  bool age_restricted = 6;
 }
 
 message DeleteRequest{
