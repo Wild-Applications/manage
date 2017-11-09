@@ -99,4 +99,27 @@ premisesRouter.get("/", verifyToken({secret: secret}), function(req,res,next){
   });
 });
 
+premisesRouter.get("/open", verifyToken({secret: secret}), function(req,res,next){
+  var token = req.header('Authorization');
+  manageHelper.getTokenContent(token, secret, function(err, decodedToken){
+    if(err){
+      res.status(400);
+      res.send(err);
+      return;
+    }
+
+    var metadata = new grpc.Metadata();
+    metadata.add('authorization', manageHelper.getRawToken(token));
+    premisesClient.open({}, metadata, function(err, result){
+      if(err){
+        console.log(err);
+        res.status(400);
+        res.send(err);
+      }else{
+        res.send(result);
+      }
+    });
+  });
+});
+
 module.exports = premisesRouter;
