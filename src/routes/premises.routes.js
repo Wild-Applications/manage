@@ -30,7 +30,8 @@ premisesRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     premisesToCreate.owner = decodedToken.sub;
     premisesClient.create(premisesToCreate, function(err, result){
       if(err){
-        res.status(400);
+        err = JSON.parse(err);
+        res.status(err.error.status || 500);
         res.send(err);
         return;
       }
