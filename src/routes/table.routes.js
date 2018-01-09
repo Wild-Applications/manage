@@ -1,6 +1,6 @@
 var Router = require('restify-router').Router,
 tableRouter = new Router(),
-verifyToken = require('restify-jwt'),
+verifyToken = require('restify-jwt-community'),
 tokenHelper = require('../helpers/token.helper.js'),
 restify = require('restify');
 

@@ -1,6 +1,6 @@
 var Router = require('restify-router').Router,
 premisesRouter = new Router(),
-verifyToken = require('restify-jwt'),
+verifyToken = require('restify-jwt-community'),
 restify = require('restify'),
 manageHelper = require('../helpers/manage.helper.js');;
 
