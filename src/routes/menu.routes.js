@@ -68,8 +68,8 @@ menuRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     menuToCreate.owner = decodedToken.sub;
     menuClient.create(menuToCreate, function(err, result){
       if(err){
-        res.status(400);
-        res.send(err);
+        res.status(err.code || 400);
+        res.send(err.message);
         return;
       }
       res.send(result);
