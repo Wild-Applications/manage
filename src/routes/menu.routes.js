@@ -58,22 +58,18 @@ menuRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
   //create request
   //get user id in order to link new premises to user
   var token = req.header('Authorization');
-  tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
+  var metadata = new grpc.Metadata();
+  metadata.add('authorization', tokenHelper.getRawToken(token));
+
+  var menuToCreate = req.body;
+  menuToCreate.owner = decodedToken.sub;
+  menuClient.create(menuToCreate, metadata, function(err, result){
     if(err){
-      res.status(400);
-      res.send(err);
+      res.status(err.code || 400);
+      res.send(err.message);
       return;
     }
-    var menuToCreate = req.body;
-    menuToCreate.owner = decodedToken.sub;
-    menuClient.create(menuToCreate, function(err, result){
-      if(err){
-        res.status(err.code || 400);
-        res.send(err.message);
-        return;
-      }
-      res.send(result);
-    });
+    res.send(result);
   });
 });
 
