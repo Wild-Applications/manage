@@ -91,8 +91,8 @@ premisesRouter.get("/", verifyToken({secret: secret}), function(req,res,next){
     metadata.add('authorization', manageHelper.getRawToken(token));
     premisesClient.get({}, metadata, function(err, result){
       if(err){
-        res.status(400);
-        res.send(err);
+        res.status(err.code || 500);
+        res.send(err.message);
       }else{
         res.send(result);
       }
