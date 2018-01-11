@@ -26,9 +26,13 @@ premisesRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
       res.send(err);
       return;
     }
+
+    var metadata = new grpc.Metadata();
+    metadata.add('authorization', manageHelper.getRawToken(token));
+
     var premisesToCreate = req.body;
     premisesToCreate.owner = decodedToken.sub;
-    premisesClient.create(premisesToCreate, function(err, result){
+    premisesClient.create(premisesToCreate, metadata, function(err, result){
       if(err){
         err = JSON.parse(err);
         res.status(err.error.status || 500);
