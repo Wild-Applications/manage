@@ -61,6 +61,7 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
   var token = req.header('Authorization');
   manageHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
+      console.log('immediate errro', err);
       res.status(400);
       res.send(err);
       return;
@@ -69,10 +70,12 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
     metadata.add('authorization', manageHelper.getRawToken(token));
     premisesClient.update(req.body, metadata, function(err, result){
       if(err){
+        console.log('premises error', err);
         res.status(400);
         res.send(err);
         return;
       }
+      console.log('no err', result);
       res.send(result);
     });
   });
