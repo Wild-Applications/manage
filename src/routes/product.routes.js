@@ -90,7 +90,11 @@ productRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     }
     var productToCreate = req.body;
     productToCreate.owner = decodedToken.sub;
-    productClient.create(productToCreate, function(err, result){
+
+    var metadata = new grpc.Metadata();
+    metadata.add('authorization', tokenHelper.getRawToken(token));
+
+    productClient.create(productToCreate, metadata, function(err, result){
       if(err){
         res.status(400);
         res.send(err);
