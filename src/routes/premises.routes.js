@@ -31,7 +31,6 @@ premisesRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     metadata.add('authorization', manageHelper.getRawToken(token));
 
     var premisesToCreate = req.body;
-    premisesToCreate.owner = decodedToken.sub;
     premisesClient.create(premisesToCreate, metadata, function(err, result){
       if(err){
         err = JSON.parse(err);
@@ -71,11 +70,10 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
     premisesClient.update(req.body, metadata, function(err, result){
       if(err){
         console.log('premises error', err);
-        res.status(400);
-        res.send(err);
+        res.status(err.code || 500);
+        res.send({message: err.message});
         return;
       }
-      console.log('no err', result);
       res.send(result);
     });
   });
