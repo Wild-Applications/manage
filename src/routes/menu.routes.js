@@ -69,7 +69,6 @@ menuRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     metadata.add('authorization', tokenHelper.getRawToken(token));
 
     var menuToCreate = req.body;
-    menuToCreate.owner = decodedToken.sub;
     menuClient.create(menuToCreate, metadata, function(err, result){
       if(err){
         res.status(err.code || 400);
