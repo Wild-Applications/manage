@@ -66,29 +66,24 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
       return;
     }
 
-    var payload = {};
+    var present = [];
 
-    if(!req.body.name){
-      payload.name = undefined;
-    }else{
-      payload.name = req.body.name;
+    if(req.body.name){
+      present[present.length] = "name";
     }
 
-    if(!req.body.description){
-      payload.description = undefined;
-    }else{
-      payload.description = req.body.description;
+    if(req.body.description){
+      present[present.length] = "descr";
     }
 
-    if(!req.body.open){
-      payload.open = undefined;
-    }else{
-      payload.open = req.body.open;
+    if(req.body.open){
+      present[present.length] = "open";
     }
 
 
     var metadata = new grpc.Metadata();
     metadata.add('authorization', manageHelper.getRawToken(token));
+    metadata.add('present', present);
     premisesClient.update(payload, metadata, function(err, result){
       if(err){
         console.log('premises error', err);
