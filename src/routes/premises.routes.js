@@ -78,7 +78,7 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
     var test = present.toString();
     console.log(typeof test);
     metadata.add('present', present.toString());
-    premisesClient.update(payload, metadata, function(err, result){
+    premisesClient.update(req.body, metadata, function(err, result){
       if(err){
         console.log('premises error', err);
         res.status(err.code || 500);
