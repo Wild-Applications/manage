@@ -65,6 +65,7 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
       res.send(err);
       return;
     }
+    console.log(req.body);
     var metadata = new grpc.Metadata();
     metadata.add('authorization', manageHelper.getRawToken(token));
     premisesClient.update(req.body, metadata, function(err, result){
