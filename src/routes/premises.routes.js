@@ -129,9 +129,8 @@ premisesRouter.post("/open", verifyToken({secret: secret}), function(req,res,nex
     metadata.add('authorization', manageHelper.getRawToken(token));
     premisesClient.open({}, metadata, function(err, result){
       if(err){
-        console.log(err);
-        res.status(400);
-        res.send(err);
+        res.status(err.code || 500);
+        res.send({message: err.message});
       }else{
         res.send(result);
       }
