@@ -67,17 +67,8 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
     }
 
     var present = [];
-
-    if(req.body.name){
-      present[present.length] = "name";
-    }
-
-    if(req.body.description){
-      present[present.length] = "descr";
-    }
-
-    if(req.body.open){
-      present[present.length] = "open";
+    for(var key in req.body){
+      present[present.length] = key;
     }
 
 
