@@ -74,7 +74,7 @@ premisesRouter.put("/", verifyToken({secret:secret}), function(req,res,next){
 
     var metadata = new grpc.Metadata();
     metadata.add('authorization', manageHelper.getRawToken(token));
-    metadata.add('present', present);
+    metadata.add('present', present.toString());
     premisesClient.update(payload, metadata, function(err, result){
       if(err){
         console.log('premises error', err);
