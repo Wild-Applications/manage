@@ -95,7 +95,7 @@ menuRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next){
       present[present.length] = key;
     }
     var metadata = new grpc.Metadata();
-    metadata.add('authorization', manageHelper.getRawToken(token));
+    metadata.add('authorization', tokenHelper.getRawToken(token));
     metadata.add('present', present.toString());
 
 
