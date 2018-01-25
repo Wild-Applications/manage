@@ -98,7 +98,7 @@ menuRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next){
     metadata.add('authorization', tokenHelper.getRawToken(token));
     metadata.add('present', present.toString());
 
-
+    console.log('params ', req.params);
     req.body._id = req.params._id;
     delete req.body.contents;
     menuClient.update(req.body, metadata, function(err, result){
