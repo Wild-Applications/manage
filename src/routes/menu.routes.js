@@ -128,17 +128,31 @@ menuRouter.put('/contents/:_id', function(req,res,next){
       res.send(err);
       return;
     }
+
+    var present = [];
+    for(var key in req.body){
+      present[present.length] = key;
+    }
     var metadata = new grpc.Metadata();
     metadata.add('authorization', tokenHelper.getRawToken(token));
-    req.body._id = req.params._id;
-    menuClient.updateContents(req.body, metadata, function(err, result){
-      if(err){
-        res.status(400);
-        res.send(err);
-        return;
-      }
-      res.send(result);
-    });
+    metadata.add('present', present.toString());
+
+    if(req.body){
+      req.body._id = req.params._id;
+      menuClient.updateContents(req.body, metadata, function(err, result){
+        if(err){
+          res.status(400);
+          res.send(err);
+          return;
+        }
+        res.send(result);
+      });
+    }else{
+      var error = error['0001'];
+      res.status(error.code || 500);
+      res.send(error);
+      return;
+    }
   });
 })
 
