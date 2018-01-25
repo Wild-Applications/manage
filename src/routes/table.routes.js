@@ -46,8 +46,8 @@ tableRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
     if(req.body && req.body.name && req.body.name != ""){
       tableClient.create(req.body, function(err, result){
         if(err){
-          res.status(400);
-          res.send(err);
+          res.status(err.code || 500);
+          res.send(err.message);
           return;
         }
         res.send(result);
