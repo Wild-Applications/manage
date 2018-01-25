@@ -2,7 +2,8 @@ var Router = require('restify-router').Router,
 tableRouter = new Router(),
 verifyToken = require('restify-jwt-community'),
 tokenHelper = require('../helpers/token.helper.js'),
-restify = require('restify');
+restify = require('restify'),
+errors = require('../errors/errors.json');
 
 var secret = process.env.JWT_SECRET;
 
