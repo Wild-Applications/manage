@@ -120,11 +120,11 @@ menuRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next){
   });
 });
 
-menuRouter.put('/contents/:_id', function(req,res,next){
+menuRouter.put('/contents/:_id', verifyToken({secret:secret}), function(req,res,next){
   var token = req.header('Authorization');
   tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
-      res.status(400);
+      res.status(401);
       res.send(err);
       return;
     }
