@@ -138,6 +138,7 @@ menuRouter.put('/contents/:_id', verifyToken({secret:secret}), function(req,res,
     metadata.add('present', present.toString());
 
     if(req.body){
+      console.log(req.body);
       req.body._id = req.params._id;
       menuClient.updateContents(req.body, metadata, function(err, result){
         if(err){
