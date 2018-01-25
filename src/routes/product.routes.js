@@ -113,8 +113,15 @@ productRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next
       res.send(err);
       return;
     }
+
+    var present = [];
+    for(var key in req.body){
+      present[present.length] = key;
+    }
     var metadata = new grpc.Metadata();
-    metadata.add('authorization', tokenHelper.getRawToken(token));
+    metadata.add('authorization', manageHelper.getRawToken(token));
+    metadata.add('present', present.toString());
+
     req.body._id = req.params._id;
     productClient.update(req.body, metadata, function(err, result){
       if(err){
