@@ -2,7 +2,8 @@ var Router = require('restify-router').Router,
 menuRouter = new Router(),
 verifyToken = require('restify-jwt-community'),
 tokenHelper = require('../helpers/token.helper.js'),
-restify = require('restify');
+restify = require('restify'),
+errors = require('../errors/errors.json');
 
 var secret = process.env.JWT_SECRET;
 
@@ -99,16 +100,23 @@ menuRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next){
     metadata.add('present', present.toString());
 
     console.log('params ', req.params);
-    req.body._id = req.params._id;
-    delete req.body.contents;
-    menuClient.update(req.body, metadata, function(err, result){
-      if(err){
-        res.status(err.code || 500);
-        res.send({message: err.message});
-        return;
-      }
-      res.send(result);
-    });
+    if(req.body){
+      req.body._id = req.params._id;
+      delete req.body.contents;
+      menuClient.update(req.body, metadata, function(err, result){
+        if(err){
+          res.status(err.code || 500);
+          res.send({message: err.message});
+          return;
+        }
+        res.send(result);
+      });
+    }else{
+      var error = errors['0001'];
+      res.status(error.code || 500);
+      res.send(error);
+      return;
+    }
   });
 });
 
