@@ -1,3 +1,4 @@
 {
-  "0001": {"message": "Updated menu wasn't passed", "code": 400}
+  "0001": {"message": "Updated menu wasn't passed", "code": 400},
+  "0002": {"message": "You must provide a name to create a table", "code": 400}
 }

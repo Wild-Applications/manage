@@ -42,16 +42,21 @@ tableRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
       res.send(err);
       return;
     }
-    var tableToCreate = req.body;
-    tableToCreate.owner = decodedToken.sub;
-    tableClient.create(tableToCreate, function(err, result){
-      if(err){
-        res.status(400);
-        res.send(err);
-        return;
-      }
-      res.send(result);
-    });
+    if(req.body && req.body.name && req.body.name != ""){
+      tableClient.create(req.body, function(err, result){
+        if(err){
+          res.status(400);
+          res.send(err);
+          return;
+        }
+        res.send(result);
+      });
+    }else{
+      var error = errors['0002'];
+      res.status(error.code || 500);
+      res.send(error);
+      return;
+    }
   });
 });
 
