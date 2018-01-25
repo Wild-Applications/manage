@@ -105,7 +105,7 @@ productRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
   });
 });
 
-productRouter.put('/:_id', verifyToken(){secret:secret}), function(req, res, next){
+productRouter.put('/:_id', verifyToken({secret:secret}), function(req, res, next){
   var token = req.header('Authorization');
   tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
