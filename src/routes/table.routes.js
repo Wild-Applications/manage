@@ -98,10 +98,11 @@ tableRouter.del('/:_id',  verifyToken({secret: secret}), function(req, res, next
     body._id = req.params._id;
     tableClient.delete(body, metadata, function(err, result){
       if(err){
-        res.status(400);
-        res.send(err);
+        res.status(err.code);
+        res.send({message:err.message});
         return;
       }
+      res.status(201);
       res.send();
     });
   });
