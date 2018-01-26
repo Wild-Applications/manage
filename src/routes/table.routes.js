@@ -44,7 +44,9 @@ tableRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
       return;
     }
     if(req.body && req.body.name && req.body.name != ""){
-      tableClient.create(req.body, function(err, result){
+      var metadata = new grpc.Metadata();
+      metadata.add('authorization', tokenHelper.getRawToken(token));
+      tableClient.create(req.body, metadata, function(err, result){
         if(err){
           res.status(err.code || 500);
           res.send(err.message);
