@@ -12,7 +12,7 @@ var tableDescriptor = grpc.load(__dirname + '/../proto/table.proto').table;
 var tableClient = new tableDescriptor.TableService('service.table:1295', grpc.credentials.createInsecure());
 
 
-tableRouter.get('/', function(req, res, next){
+tableRouter.get('/', verifyToken({secret: secret}), function(req, res, next){
   var token = req.header('Authorization');
   tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
@@ -63,7 +63,7 @@ tableRouter.post("/", verifyToken({secret:secret}), function(req,res,next){
   });
 });
 
-tableRouter.put('/:_id', function(req, res, next){
+tableRouter.put('/:_id',  verifyToken({secret: secret}), function(req, res, next){
   var token = req.header('Authorization');
   tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
@@ -85,7 +85,7 @@ tableRouter.put('/:_id', function(req, res, next){
   });
 });
 
-tableRouter.del('/:_id', function(req, res, next){
+tableRouter.del('/:_id',  verifyToken({secret: secret}), function(req, res, next){
   var token = req.header('Authorization');
   tokenHelper.getTokenContent(token, secret, function(err, decodedToken){
     if(err){
